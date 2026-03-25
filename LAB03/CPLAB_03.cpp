@@ -17,7 +17,15 @@ Page* current = nullptr;
 // Function: Visit
 void visit(string url, string title, int h, int m, int s)
 {
-	Page* new_page = new Page(url, title, { h, m, s });
+    // Yeni Page nesnesini default oluşturup alanları elle dolduralım
+    Page* new_page = new Page();
+    new_page->url = url;
+    new_page->title = title;
+    new_page->accesTime[0] = h;
+    new_page->accesTime[1] = m;
+    new_page->accesTime[2] = s;
+    new_page->next = nullptr;
+    new_page->prev = nullptr;
 
 	// If history empty
 	if (!head) {
@@ -53,12 +61,12 @@ void goBack()
 // Function: Forward
 void goForward()
 {
-	if (current && current->next) {
-		current = current->next;
-	}
-	else {
-		cout << "No forward page!!|n";
-	}
+    if (current && current->next) {
+        current = current->next;
+    }
+    else {
+        cout << "No forward page!!\n";
+    }
 }
 
 // Function: Delete Current
@@ -104,19 +112,19 @@ void displayHistory()
 
 	cout << "\n------- Browser History -------\n";
 	while (temp) {
-		if (temp == current) {
-			cout << "You are on this site!"; // update!!!!
-		}
-		else {
-			cout << "    ";
-		}
-
 		cout << temp->title << " (" << temp->url << ") - ";
 
 		// Print Access Time Using Loop
 		for (int i = 0; i < 3; i++) {
 			cout << temp->accesTime[i];
 			if (i < 2) cout << ":";
+		}
+
+		if (temp == current) {
+			cout << "   ----->You are on this site!";
+		}
+		else {
+			cout << "    ";
 		}
 
 		cout << endl;
@@ -155,11 +163,12 @@ int main()
 		cout << "Select: ";
 		cin >> choice;
 
+		string url, title;
+		int h, m, s;
+
+
 		switch (choice) {
 		case 1:
-			string url, title;
-			int h, m, s;
-
 			cout << "Enter Url: ";
 			cin >> url;
 			cout << "Enter Title: ";
@@ -193,6 +202,7 @@ int main()
 		
 		default:
 			cout << "Invalid Choice!\n";
+
 		}
 	}
 }
